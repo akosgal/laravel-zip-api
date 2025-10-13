@@ -76,7 +76,7 @@ class CityCountyController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function createCounty(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255'
@@ -87,7 +87,20 @@ class CityCountyController extends Controller
         return response()->json($county, 201);
     }
 
-    public function destroy($countyId)
+    public function updateCounty(Request $request, $countyId)
+    {
+        $county = County::findOrFail($countyId);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $county->update($validated);
+
+        return response()->json($county);
+    }
+
+    public function deleteCounty($countyId)
     {
         $county = County::findOrFail($countyId);
         $county->delete();
@@ -107,6 +120,18 @@ class CityCountyController extends Controller
         $county->cities()->save($city);
 
         return response()->json($city, 201);
+    }
+
+    public function updateCity(Request $request, $countyId, $cityId)
+    {
+        $county = County::findOrFail($countyId);
+        $city = $county->cities()->findOrFail($cityId);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        return response()->json($city);
     }
 
     public function deleteCity($countyId, $cityId)
