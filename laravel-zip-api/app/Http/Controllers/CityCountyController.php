@@ -75,4 +75,46 @@ class CityCountyController extends Controller
             ]
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $county = County::create($validated);
+
+        return response()->json($county, 201);
+    }
+
+    public function destroy($countyId)
+    {
+        $county = County::findOrFail($countyId);
+        $county->delete();
+
+        return response()->json(['message' => 'County deleted successfully']);
+    }
+
+    public function createCity(Request $request, $countyId)
+    {
+        $county = County::findOrFail($countyId);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $city = new City($validated);
+        $county->cities()->save($city);
+
+        return response()->json($city, 201);
+    }
+
+    public function deleteCity($countyId, $cityId)
+    {
+        $county = County::findOrFail($countyId);
+        $city = $county->cities()->findOrFail($cityId);
+        $city->delete();
+
+        return response()->json(['message' => 'City deleted successfully']);
+    }
 }
