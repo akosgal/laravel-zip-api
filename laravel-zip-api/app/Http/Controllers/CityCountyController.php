@@ -15,6 +15,22 @@ class CityCountyController extends Controller
         return response()->json($counties);
     }
 
+    public function countyName($countyId)
+    {
+        $county = County::find($countyId);
+        if (!$county)
+        {
+            return response()->json(['error' => 'County not found'], 404);
+        }
+
+        return response()->json([
+            'county' => [
+                'id' => $county->id,
+                'name' => $county->name
+            ]
+        ]);
+    }
+
     public function show($countyId)
     {
         $county = County::find($countyId);
