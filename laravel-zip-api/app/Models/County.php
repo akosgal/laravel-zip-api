@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class County extends Model
 {
-    //
-    public $timestamps = false;
+    use HasFactory;
+
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
 }
