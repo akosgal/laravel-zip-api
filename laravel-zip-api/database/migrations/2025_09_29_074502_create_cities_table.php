@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('postal_code');
             $table->string('name');
-            $table->bigInteger('county_id');
-
-            $table->foreign('county_id')->references('id')->on('counties')->onDelete('restrict');
+            $table->foreignId('county_id')->constrained()->onDelete('restrict');
         });
     }
 

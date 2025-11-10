@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class County extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     public function cities()
     {

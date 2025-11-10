@@ -24,10 +24,22 @@ class CountyController extends Controller
      *   { "id": 2, "name": "Jász-Nagykun-Szolnok" }
      * ]
      */
-    public function index()
+    public function index(Request $request)
     {
-        $counties = County::all(['id', 'name']);
-        return response()->json($counties);
+        $query = County::select('*');
+
+        $needle = $request->get('needle');
+        if($needle) {
+            $query->where('name', 'like', "%{$needle}%");
+        }
+
+        $entities = $query->orderBy('name')->get();
+
+        return response()->json([
+            'data' => [
+                'counties' => $entities
+            ]
+        ]);
     }
 
     // Get a single county by ID
