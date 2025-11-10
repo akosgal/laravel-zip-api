@@ -9,6 +9,19 @@ use App\Models\City;
 class CityController extends Controller
 {
     // List all cities in a county
+    /**
+     * @api {get} /api/counties/:county_id/cities Get all cities in a county
+     * @apiName GetCities
+     * @apiGroup City
+     * @apiVersion 1.0.0
+     *
+     * @apiParam {Number} county_id County ID
+     *
+     * @apiSuccess {Object} county County info
+     * @apiSuccess {Object[]} cities List of cities
+     * @apiSuccess {Number} cities.id City ID
+     * @apiSuccess {String} cities.name City name
+     */
     public function index($countyId)
     {
         $county = County::find($countyId);
