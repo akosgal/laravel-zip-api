@@ -54,15 +54,15 @@ class CountyControllerTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ])->postJson('/api/counties', [
-            'name' => 'Asd'
+            'name' => 'Somogy'
         ]);
 
 		// teszteljük, hogy 200-as kódot kapunk-e és a válaszban benne van-e az újonnan hozzáadott adat.
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'Asd']);
+            ->assertJsonFragment(['name' => 'Somogy']);
 		
 		// teszteljük, hogy az adatbázisban is ott van-e at adat
-        $this->assertDatabaseHas('counties', ['name' => 'Asd']);
+        $this->assertDatabaseHas('counties', ['name' => 'Somogy']);
     }
  
 /**
