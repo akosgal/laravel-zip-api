@@ -16,10 +16,10 @@ Route::get('counties/{countyId}/cities', [CityController::class, 'show']);
 Route::get('counties/{countyId}/cities/{cityId}', [CityController::class, 'cityInCounty']);
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::post('counties', [CountyController::class, 'createCounty']);
-    Route::put('counties/{countyId}', [CountyController::class, 'updateCounty']);
-    Route::delete('counties/{countyId}', [CountyController::class, 'deleteCounty']);
-    Route::post('counties/{countyId}/cities', [CityController::class, 'createCity']);
-    Route::put('counties/{countyId}/cities/{cityId}', [CityController::class, 'updateCity']);
-    Route::delete('counties/{countyId}/cities/{cityId}', [CityController::class, 'deleteCity']);
+    Route::post('counties', [CountyController::class, 'store']);
+    Route::put('counties/{countyId}', [CountyController::class, 'update']);
+    Route::delete('counties/{countyId}', [CountyController::class, 'destroy']);
+    Route::post('counties/{countyId}/cities', [CityController::class, 'store']);
+    Route::put('counties/{countyId}/cities/{cityId}', [CityController::class, 'update']);
+    Route::delete('counties/{countyId}/cities/{cityId}', [CityController::class, 'destroy']);
 });

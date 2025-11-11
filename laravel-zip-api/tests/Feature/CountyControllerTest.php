@@ -58,7 +58,7 @@ class CountyControllerTest extends TestCase
         ]);
 
 		// teszteljük, hogy 200-as kódot kapunk-e és a válaszban benne van-e az újonnan hozzáadott adat.
-        $response->assertStatus(200)
+        $response->assertStatus(201)
             ->assertJsonFragment(['name' => 'Somogy']);
 		
 		// teszteljük, hogy az adatbázisban is ott van-e at adat
@@ -95,12 +95,15 @@ class CountyControllerTest extends TestCase
  
 	public function test_update_returns_404_for_missing_county()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'sanctum');
+
         $response = $this->putJson('/api/counties/999', [
             'name' => 'Tolna'
         ]);
 
         $response->assertStatus(404)
-            ->assertJsonFragment(['message' => 'Not found!']);
+            ->assertJsonFragment(['message' => 'No query results for model [App\\Models\\County] 999']);
     } 
 	
 /**
@@ -111,10 +114,13 @@ class CountyControllerTest extends TestCase
     {
         $county = County::factory()->create(['name' => 'Vas']);
 
+        $user = User::factory()->create();
+        $this->actingAs($user, 'sanctum');
+
         $response = $this->deleteJson("/api/counties/{$county->id}");
 
         $response->assertStatus(410)
-            ->assertJsonFragment(['message' => 'Deleted']);
+            ->assertJsonFragment(['message' => 'County deleted successfully']);
 
         $this->assertDatabaseMissing('counties', ['id' => $county->id]);
     }

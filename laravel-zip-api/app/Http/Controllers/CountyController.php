@@ -148,6 +148,6 @@ class CountyController extends Controller
         $county = County::findOrFail($countyId);
         $county->delete();
 
-        return response()->json(['message' => 'County deleted successfully']);
+        return response()->json(['message' => 'County deleted successfully'], 410);
     }
 }
